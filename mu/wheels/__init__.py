@@ -41,14 +41,14 @@ mode_packages = [
     # pygame versions >=2.1.3 have issues in macOS 10.x, so temporarily for
     # Mu release 1.2.1 pin the max version here
     # https://github.com/mu-editor/mu/issues/2423
-    ("pgzero", ("pgzero>=1.2.1", "pygame<2.1.3")),
+    ("pgzero", ("pgzero>=1.2.1", "pygame>=2.1.3")),
     # Lock Werkzeug to < 3.0.0: import flask fails, otherwise.
     ("flask", ("flask==2.0.3", "Werkzeug<3.0.0")),
     # The version of ipykernel here should match to the version used by
     # qtconsole at the version specified in setup.py
     # FIXME: ipykernel max ver added for macOS 10.13 compatibility, min taken
     # from qtconsole 4.7.7. This is mirrored in setup.py
-    ("ipykernel", ("ipykernel>=4.1,<6",)),
+    # ("ipykernel", ("ipykernel>=4.1,<6",)),
     # FIXME: ipykernel<6 depends on ipython_genutils, but it isn't explicitly
     # declared as a dependency. It also depends on traitlets, which
     # incidentally brought ipython_genutils, but in v5.1 it was dropped, so as
@@ -110,9 +110,16 @@ def pip_download(dirpath, logger, additional_flags=[]):
             extra_flags,
             additional_flags,
         )
+        print(
+            "Running pip download for %s / %s / %s / %s",
+            name,
+            pip_identifiers,
+            extra_flags,
+            additional_flags,
+        )
         process = subprocess.run(
             [
-                sys.executable,
+                "/nix/store/yns304db69ln7abq2gni3swmpvywi702-python3-3.11.6-env/bin/python3.11",
                 "-m",
                 "pip",
                 "--disable-pip-version-check",
@@ -129,6 +136,7 @@ def pip_download(dirpath, logger, additional_flags=[]):
             stderr=subprocess.STDOUT,
         )
         logger.debug(compact(process.stdout.decode("utf-8")))
+        print(compact(process.stdout.decode("utf-8")))
 
         #
         # If any wheel fails to download, remove any files already downloaded

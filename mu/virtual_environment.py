@@ -27,7 +27,7 @@ from . import settings
 from . import config
 from . import __version__ as mu_version
 
-wheels_dirpath = os.path.dirname(wheels.__file__)
+wheels_dirpath = os.path.dirname("/home/adrien/.local/share/mu/")
 
 logger = logging.getLogger(__name__)
 
@@ -874,12 +874,14 @@ class VirtualEnvironment(object):
         args = filter(
             None,
             (
-                safe_short_path(sys.executable),
+                #safe_short_path(sys.executable),
+                "/nix/store/yns304db69ln7abq2gni3swmpvywi702-python3-3.11.6-env/bin/python3.11",
                 "-I",
                 "-m",
                 "virtualenv",
                 "-p",
-                safe_short_path(sys.executable),
+                #safe_short_path(sys.executable),
+                "/nix/store/yns304db69ln7abq2gni3swmpvywi702-python3-3.11.6-env/bin/python3.11",
                 "-q",
                 "" if self._is_windows else "--symlinks",
                 self.path,
@@ -889,7 +891,8 @@ class VirtualEnvironment(object):
         if ok:
             logger.info(
                 "Created virtual environment using %s at %s",
-                safe_short_path(sys.executable),
+                "/nix/store/yns304db69ln7abq2gni3swmpvywi702-python3-3.11.6-env/bin/python3.11",
+                #safe_short_path(sys.executable),
                 self.path,
             )
         else:
@@ -907,7 +910,8 @@ class VirtualEnvironment(object):
         display_name = '"Python/Mu ({})"'.format(kernel_name)
         logger.info("Installing Jupyter Kernel: %s", kernel_name)
         ok, output = self.run_subprocess(
-            safe_short_path(sys.executable),
+            # safe_short_path(sys.executable),
+            "/nix/store/yns304db69ln7abq2gni3swmpvywi702-python3-3.11.6-env/bin/python3.11",
             "-I",
             "-m",
             "ipykernel",
